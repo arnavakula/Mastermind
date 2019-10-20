@@ -2,6 +2,7 @@ package app;
 
 import java.util.Scanner;
 import app.Constants;
+import app.Computer;
 
 public class App {
 
@@ -9,6 +10,7 @@ public class App {
         Scanner scan = new Scanner(System.in);
         String input = getUserInput(scan);
         System.out.println(isValidInput(input));
+        Computer.getRandomSequence();
        
     } 
 
@@ -27,7 +29,6 @@ public class App {
     }
 
     public static boolean isValidInput(String s){
-        char[] colors = {'r', 'g', 'b', 'y', 's', 'o', 'p', 'w'};
         boolean isValid = false;
         
         if(s.length() != Constants.SEQUENCE_LENGTH || hasDuplicates(s)){
@@ -36,9 +37,8 @@ public class App {
 
         for(int i = 0; i < 4; i++){
             isValid = false;
-
-            for(int j = 0; j < colors.length; j++){
-                if(s.charAt(i) == colors[j]){
+            for(int j = 0; j < Constants.COLORS.length; j++){
+                if(s.charAt(i) == Constants.COLORS[j]){
                     isValid = true;
                     break;
                 }

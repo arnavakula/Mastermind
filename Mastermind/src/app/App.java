@@ -1,18 +1,51 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-import app.Constants;
-import app.Computer;
+
+import app.board.Board;
+import app.board.Spot;
 
 public class App {
 
     public static void main(String[] args) { 
+        Spot[][] board = Board.getInitialBoard();
         Scanner scan = new Scanner(System.in);
-        String input = getUserInput(scan);
-        System.out.println(isValidInput(input));
-        Computer.getRandomSequence();
-       
+        String input;
+        String compMove = Computer.getRandomSequence();
+        int[] results = new int[2];
+
+        System.out.println("The computer has chosen a move: " + compMove);
+        for(int i = 0; i < 10; i++){
+            Board.drawBoard(board);
+            input = getUserInput(scan);
+            System.out.println("You said " + input);
+            results = checkGuess(input, compMove);
+            System.out.println(results[0] + " " + results[1]);
+        }
+        scan.close();
     } 
+
+    public static int[] checkGuess(String input, String compMove){
+        int[] results = {0, 0};
+        ArrayList<Character> doubleCheck = new ArrayList<Character>(); //exact 0, same loc. 1
+      
+        for(int i = 0; i < Constants.SEQUENCE_LENGTH; i++){ //handles input
+            for(int j = 0; j < Constants.SEQUENCE_LENGTH; j++){ //handles compMove
+                if(i == j && input.charAt(i) == compMove.charAt(j)){
+                    System.out.println("EXACT MATCH FOR " + input.charAt(i));
+                    results[0]++;
+                } else if(i != j && input.charAt(i) == compMove.charAt(j)){
+                    System.out.println("WRONG LOCATION FOR " + input.charAt(i));
+                    results[1]++;
+                }
+            }
+        }
+
+
+        return results;
+    }
+    
 
     public static String getUserInput(Scanner scan){
         String input;

@@ -14,7 +14,7 @@ public class Board{
 
     public static Spot[][] getInitialBoard(){
         //only used at the beginning of a game - creates instance of board
-        // IMPORTANT: creates a board as well
+        // IMPORTANT: creates and returns a board as well
 
         Spot[][] board = new Spot[Constants.TURNS][Constants.SEQUENCE_LENGTH];
         board = new Spot[Constants.TURNS][Constants.SEQUENCE_LENGTH];

@@ -13,18 +13,42 @@ public class App {
         Scanner scan = new Scanner(System.in);
         String input;
         String compMove = Computer.getRandomSequence();
+        compMove = "rybw"; //test case
         int[] results = new int[2];
+        boolean isGameOver = false;
 
         System.out.println("The computer has chosen a move: " + compMove);
-        for(int i = 0; i < 10; i++){
-            Board.drawBoard(board);
-            input = getUserInput(scan);
-            System.out.println("You said " + input);
-            results = checkGuess(input, compMove);
-            System.out.println(results[0] + " " + results[1]);
+        while(!isGameOver){
+            for(int i = 0; i < Constants.TURNS; i++){
+                Board.drawBoard(board);
+                if(i != 0){System.out.println("Exact ones: " + results[0] + " | Different spot: " + results[1]);}
+                input = getUserInput(scan);
+                results = checkGuess(input, compMove);
+                if(results[1] == 0 && results[0] == Constants.SEQUENCE_LENGTH){
+                    handleWin();
+                    isGameOver = true;
+                    break;
+                } else if(i == Constants.TURNS){
+                    handleLoss(compMove);
+                    isGameOver = true;
+                    break;
+                }
+                setNewRow(input, i, board);
+            }
         }
+        
         scan.close();
-    } 
+    }
+
+    public static void handleWin(){
+        System.out.println("Congratulations you won I guess");
+    }
+
+    public static void handleLoss(String compMove) {
+        System.out.println();
+        System.out.println("The computer's sequence was " + compMove);
+        System.out.println("Better luck next time I guess");
+    }
 
     public static int[] checkGuess(String input, String compMove){
         int[] results = {0, 0};
@@ -33,10 +57,10 @@ public class App {
         for(int i = 0; i < Constants.SEQUENCE_LENGTH; i++){ //handles input
             for(int j = 0; j < Constants.SEQUENCE_LENGTH; j++){ //handles compMove
                 if(i == j && input.charAt(i) == compMove.charAt(j)){
-                    System.out.println("EXACT MATCH FOR " + input.charAt(i));
+                    // System.out.println("EXACT MATCH FOR " + input.charAt(i));
                     results[0]++;
                 } else if(i != j && input.charAt(i) == compMove.charAt(j)){
-                    System.out.println("WRONG LOCATION FOR " + input.charAt(i));
+                    // System.out.println("WRONG LOCATION FOR " + input.charAt(i));
                     results[1]++;
                 }
             }
@@ -45,7 +69,12 @@ public class App {
 
         return results;
     }
-    
+
+    public static void setNewRow(String input, int row, Spot[][] board){
+        for(int i = 0; i < Constants.SEQUENCE_LENGTH; i++){
+            board[Constants.TURNS - 1 - row][i].setSpotColor(input.charAt(i));
+        }
+    }
 
     public static String getUserInput(Scanner scan){
         String input;

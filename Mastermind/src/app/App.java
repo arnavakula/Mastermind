@@ -13,15 +13,15 @@ public class App {
         Scanner scan = new Scanner(System.in);
         String input;
         String compMove = Computer.getRandomSequence();
-        compMove = "rybw"; //test case
+    
         int[] results = new int[2];
         boolean isGameOver = false;
 
-        System.out.println("The computer has chosen a move: " + compMove);
+        System.out.println("The computer has chosen a move: ");
         while(!isGameOver){
             for(int i = 0; i < Constants.TURNS; i++){
                 Board.drawBoard(board);
-                if(i != 0){System.out.println("Exact ones: " + results[0] + " | Different spot: " + results[1]);}
+                if(i != 0){System.out.println(i + " Exact ones: " + results[0] + " | Different spot: " + results[1]);}
                 input = getUserInput(scan);
                 results = checkGuess(input, compMove);
                 if(results[1] == 0 && results[0] == Constants.SEQUENCE_LENGTH){
@@ -29,6 +29,7 @@ public class App {
                     isGameOver = true;
                     break;
                 } else if(i == Constants.TURNS){
+                    System.out.println("GAME IS OVER");
                     handleLoss(compMove);
                     isGameOver = true;
                     break;

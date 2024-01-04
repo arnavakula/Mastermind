@@ -1,6 +1,7 @@
 package app;
 
 import app.Constants;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class Computer{
@@ -12,7 +13,7 @@ public class Computer{
     public static String getRandomSequence(){
         int[] randomSequence  = new int[Constants.SEQUENCE_LENGTH];
         char[] colorSequence = new char[Constants.SEQUENCE_LENGTH];
-        Random rand = new Random();
+        Random rand = new SecureRandom();
 
         //get int sequence
         while(true){
